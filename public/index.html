@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serverless JSON Validator & Formatter</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>🔍 JSON Validator & Formatter</h1>
+      <p class="subtitle">Serverless JSON validation, formatting, comparison & analysis</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="validate">✅ Validate</button>
+      <button class="tab-btn" data-tab="format">📝 Format</button>
+      <button class="tab-btn" data-tab="compare">🔄 Compare</button>
+      <button class="tab-btn" data-tab="info">ℹ️ Info</button>
+    </nav>
+
+    <!-- Validate Tab -->
+    <section id="validate-tab" class="tab-content active">
+      <div class="panel">
+        <h2>JSON Syntax & Schema Validation</h2>
+        <div class="input-group">
+          <div class="textarea-header">
+            <label for="validate-json">JSON Input</label>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="loadSample('validate')">Load Sample</button>
+              <button class="btn btn-sm" onclick="clearField('validate-json')">Clear</button>
+            </div>
+          </div>
+          <div class="textarea-wrapper">
+            <div class="line-numbers" id="validate-json-lines">1</div>
+            <textarea id="validate-json" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="textarea-header">
+            <label for="validate-schema">JSON Schema (optional)</label>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="loadSampleSchema()">Load Sample Schema</button>
+              <button class="btn btn-sm" onclick="clearField('validate-schema')">Clear</button>
+            </div>
+          </div>
+          <div class="textarea-wrapper">
+            <div class="line-numbers" id="validate-schema-lines">1</div>
+            <textarea id="validate-schema" placeholder="Paste JSON Schema here (optional)..." spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="validateJson()">Validate Syntax</button>
+          <button class="btn btn-secondary" onclick="validateWithSchema()">Validate with Schema</button>
+        </div>
+
+        <div id="validate-result" class="result-panel"></div>
+      </div>
+    </section>
+
+    <!-- Format Tab -->
+    <section id="format-tab" class="tab-content">
+      <div class="panel">
+        <h2>JSON Formatter</h2>
+        <div class="input-group">
+          <div class="textarea-header">
+            <label for="format-json">JSON Input</label>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="loadSample('format')">Load Sample</button>
+              <button class="btn btn-sm" onclick="clearField('format-json')">Clear</button>
+            </div>
+          </div>
+          <div class="textarea-wrapper">
+            <div class="line-numbers" id="format-json-lines">1</div>
+            <textarea id="format-json" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="formatJson('prettify')">✨ Prettify</button>
+          <button class="btn btn-secondary" onclick="formatJson('minify')">📦 Minify</button>
+          <button class="btn btn-secondary" onclick="formatJson('sort-keys')">🔤 Sort Keys</button>
+          <button class="btn btn-secondary" onclick="formatJson('yaml')">📋 YAML-like</button>
+        </div>
+
+        <div class="input-group">
+          <div class="textarea-header">
+            <label for="format-output">Output</label>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="copyOutput('format-output')">📋 Copy</button>
+            </div>
+          </div>
+          <div class="textarea-wrapper">
+            <div class="line-numbers" id="format-output-lines">1</div>
+            <textarea id="format-output" readonly placeholder="Formatted output will appear here..." spellcheck="false"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compare Tab -->
+    <section id="compare-tab" class="tab-content">
+      <div class="panel">
+        <h2>JSON Comparator</h2>
+        <div class="compare-grid">
+          <div class="input-group">
+            <div class="textarea-header">
+              <label for="compare-json1">JSON 1 (Original)</label>
+              <div class="btn-group">
+                <button class="btn btn-sm" onclick="loadSample('compare1')">Load Sample</button>
+                <button class="btn btn-sm" onclick="clearField('compare-json1')">Clear</button>
+              </div>
+            </div>
+            <div class="textarea-wrapper">
+              <div class="line-numbers" id="compare-json1-lines">1</div>
+              <textarea id="compare-json1" placeholder="Paste first JSON here..." spellcheck="false"></textarea>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="textarea-header">
+              <label for="compare-json2">JSON 2 (Modified)</label>
+              <div class="btn-group">
+                <button class="btn btn-sm" onclick="loadSample('compare2')">Load Sample</button>
+                <button class="btn btn-sm" onclick="clearField('compare-json2')">Clear</button>
+              </div>
+            </div>
+            <div class="textarea-wrapper">
+              <div class="line-numbers" id="compare-json2-lines">1</div>
+              <textarea id="compare-json2" placeholder="Paste second JSON here..." spellcheck="false"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="compareJson()">🔄 Compare</button>
+        </div>
+
+        <div id="compare-result" class="result-panel"></div>
+      </div>
+    </section>
+
+    <!-- Info Tab -->
+    <section id="info-tab" class="tab-content">
+      <div class="panel">
+        <h2>JSON Analyzer</h2>
+        <div class="input-group">
+          <div class="textarea-header">
+            <label for="info-json">JSON Input</label>
+            <div class="btn-group">
+              <button class="btn btn-sm" onclick="loadSample('info')">Load Sample</button>
+              <button class="btn btn-sm" onclick="clearField('info-json')">Clear</button>
+            </div>
+          </div>
+          <div class="textarea-wrapper">
+            <div class="line-numbers" id="info-json-lines">1</div>
+            <textarea id="info-json" placeholder="Paste your JSON here..." spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary" onclick="analyzeJson()">🔍 Analyze</button>
+        </div>
+
+        <div id="info-result" class="result-panel"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Serverless JSON Validator & Formatter &mdash; Cloud Computing Project</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
