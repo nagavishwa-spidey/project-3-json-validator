@@ -371,7 +371,7 @@ Time:        1.45 s
 
 ## 16. Verified Live Website URL
 
-- **GitHub Repository:** https://github.com/nagavishwa-spidey/serverless-json-validator
+- **GitHub Repository:** https://github.com/nagavishwa-spidey/project-3-json-validator
 - **Live Deployment URL:** _To be updated after cloud provider deployment verification_
 
 ---
